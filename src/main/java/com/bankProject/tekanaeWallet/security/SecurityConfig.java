@@ -10,17 +10,31 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private static final String[] WHITE_LIST_URL = {
+            "/api/v1/auth/**",
+            "/v2/api-docs",
+            "/swagger-ui/**",
+            "/swagger-resources/**"
+    };
+
     @Autowired
     private JwtAuthFilter jwtAuthFilter;
 
     @Autowired
+    private JwtAuthEntryPoint jwtAuthEntryPoint;
+
+    @Autowired
     private JwtUserDetailService jwtUserDetailService;
+
+    @Autowired
+    private AccessDenied accessDenied;
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
@@ -31,7 +45,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -44,9 +58,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .cors().and().csrf().disable()
                 .authorizeHttpRequests()
+                .antMatchers(WHITE_LIST_URL).permitAll()
                 .anyRequest()
                 .authenticated()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).accessDeniedHandler(accessDenied)
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
