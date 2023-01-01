@@ -1,7 +1,7 @@
-package com.bankProject.tekanaeWallet.models;
+package com.bankProject.tekanaeWallet.auth.models;
 
+import com.bankProject.tekanaeWallet.role.models.RoleModel;
 import lombok.*;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.*;
 import java.util.List;
