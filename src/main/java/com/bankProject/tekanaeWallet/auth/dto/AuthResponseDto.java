@@ -1,4 +1,4 @@
-package com.bankProject.tekanaeWallet.dto;
+package com.bankProject.tekanaeWallet.auth.dto;
 
 //import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

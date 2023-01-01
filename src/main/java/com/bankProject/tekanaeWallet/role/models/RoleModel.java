@@ -1,4 +1,4 @@
-package com.bankProject.tekanaeWallet.models;
+package com.bankProject.tekanaeWallet.role.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

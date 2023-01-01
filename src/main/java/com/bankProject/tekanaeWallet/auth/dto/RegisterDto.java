@@ -1,4 +1,4 @@
-package com.bankProject.tekanaeWallet.dto;
+package com.bankProject.tekanaeWallet.auth.dto;
 
 import com.bankProject.tekanaeWallet.validation.passwordValidation.Password;
 import lombok.AllArgsConstructor;

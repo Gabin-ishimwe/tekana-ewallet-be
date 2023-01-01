@@ -2,10 +2,10 @@ package com.bankProject.tekanaeWallet.data;
 
 
 import com.bankProject.tekanaeWallet.exceptions.NotFoundException;
-import com.bankProject.tekanaeWallet.models.RoleModel;
-import com.bankProject.tekanaeWallet.models.UserModel;
-import com.bankProject.tekanaeWallet.repositories.RoleRepository;
-import com.bankProject.tekanaeWallet.repositories.UserRepository;
+import com.bankProject.tekanaeWallet.role.models.RoleModel;
+import com.bankProject.tekanaeWallet.auth.models.UserModel;
+import com.bankProject.tekanaeWallet.role.repositories.RoleRepository;
+import com.bankProject.tekanaeWallet.auth.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;

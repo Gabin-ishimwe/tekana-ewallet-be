@@ -1,6 +1,6 @@
-package com.bankProject.tekanaeWallet.repositories;
+package com.bankProject.tekanaeWallet.role.repositories;
 
-import com.bankProject.tekanaeWallet.models.RoleModel;
+import com.bankProject.tekanaeWallet.role.models.RoleModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
