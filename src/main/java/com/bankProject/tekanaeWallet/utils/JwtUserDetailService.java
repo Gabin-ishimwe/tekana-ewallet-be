@@ -1,6 +1,6 @@
 package com.bankProject.tekanaeWallet.utils;
 
-import com.bankProject.tekanaeWallet.auth.models.UserModel;
+import com.bankProject.tekanaeWallet.auth.entity.User;
 import com.bankProject.tekanaeWallet.auth.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,7 +20,7 @@ public class JwtUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserModel user = userRepository.findByEmail(username);
+        User user = userRepository.findByEmail(username);
         System.out.println(user);
         if(user != null) {
             return new org.springframework.security.core.userdetails.User(
@@ -33,7 +33,7 @@ public class JwtUserDetailService implements UserDetailsService {
         }
     }
 
-    private List<SimpleGrantedAuthority> authorities(UserModel user) {
+    private List<SimpleGrantedAuthority> authorities(User user) {
         List<SimpleGrantedAuthority> auths = new ArrayList<>();
         user.getRoles().forEach(role -> {
             auths.add(new SimpleGrantedAuthority( "ROLE_"+ role.getName()));

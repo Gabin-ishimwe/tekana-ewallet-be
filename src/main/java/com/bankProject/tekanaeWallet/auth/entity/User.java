@@ -1,6 +1,7 @@
-package com.bankProject.tekanaeWallet.auth.models;
+package com.bankProject.tekanaeWallet.auth.entity;
 
-import com.bankProject.tekanaeWallet.role.models.RoleModel;
+import com.bankProject.tekanaeWallet.account.entity.Account;
+import com.bankProject.tekanaeWallet.role.entity.Role;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,9 +13,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserModel {
+public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(
             name = "first_name"
@@ -54,5 +55,12 @@ public class UserModel {
                     referencedColumnName = "id"
             )
     )
-    private List<RoleModel> roles;
+    private List<Role> roles;
+
+    @OneToOne
+    @JoinColumn(
+            name = "account_number",
+            referencedColumnName = "account_number"
+    )
+    private Account account;
 }

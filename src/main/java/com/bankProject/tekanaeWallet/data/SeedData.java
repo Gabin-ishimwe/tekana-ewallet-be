@@ -2,10 +2,10 @@ package com.bankProject.tekanaeWallet.data;
 
 
 import com.bankProject.tekanaeWallet.exceptions.NotFoundException;
-import com.bankProject.tekanaeWallet.role.models.RoleModel;
-import com.bankProject.tekanaeWallet.auth.models.UserModel;
-import com.bankProject.tekanaeWallet.role.repositories.RoleRepository;
+import com.bankProject.tekanaeWallet.role.entity.Role;
+import com.bankProject.tekanaeWallet.auth.entity.User;
 import com.bankProject.tekanaeWallet.auth.repositories.UserRepository;
+import com.bankProject.tekanaeWallet.role.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,10 +32,10 @@ public class SeedData implements CommandLineRunner {
 
     public void seedUsersAndRole() throws NotFoundException {
 
-        RoleModel roleUser = seedRole("USER");
-        RoleModel roleVendor = seedRole("VENDOR");
-        RoleModel roleAdmin = seedRole("ADMIN");
-        UserModel user1 = seedUser(
+        Role roleUser = seedRole("USER");
+        Role roleVendor = seedRole("VENDOR");
+        Role roleAdmin = seedRole("ADMIN");
+        User user1 = seedUser(
                 "John",
                 "Doe",
                 "john@gmail.com",
@@ -44,7 +44,7 @@ public class SeedData implements CommandLineRunner {
                 List.of(roleUser)
         );
 
-        UserModel user2 = seedUser(
+        User user2 = seedUser(
                 "Sam",
                 "Patrick",
                 "patrick@gmail.com",
@@ -53,7 +53,7 @@ public class SeedData implements CommandLineRunner {
                 List.of(roleUser, roleVendor)
         );
 
-        UserModel user3 = seedUser(
+        User user3 = seedUser(
                 "Jane",
                 "Angel",
                 "angel@gmail.com",
@@ -65,9 +65,9 @@ public class SeedData implements CommandLineRunner {
     }
 
 
-    public UserModel seedUser(String firstName, String lastName, String email, String password, String contact, List<RoleModel> roles) {
+    public User seedUser(String firstName, String lastName, String email, String password, String contact, List<Role> roles) {
         return userRepository.save(
-                UserModel.builder()
+                User.builder()
                         .firstName(firstName)
                         .lastName(lastName)
                         .email(email)
@@ -78,9 +78,9 @@ public class SeedData implements CommandLineRunner {
         );
     }
 
-    public RoleModel seedRole(String name) {
+    public Role seedRole(String name) {
         return roleRepository.save(
-                RoleModel.builder()
+                Role.builder()
                         .name(name)
                         .build()
         );

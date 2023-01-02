@@ -1,15 +1,17 @@
 package com.bankProject.tekanaeWallet.auth.services;
 
+import com.bankProject.tekanaeWallet.account.entity.Account;
+import com.bankProject.tekanaeWallet.account.repositories.AccountRepository;
 import com.bankProject.tekanaeWallet.auth.dto.LoginDto;
 import com.bankProject.tekanaeWallet.auth.dto.AuthResponseDto;
 import com.bankProject.tekanaeWallet.auth.dto.RegisterDto;
 import com.bankProject.tekanaeWallet.exceptions.NotFoundException;
 import com.bankProject.tekanaeWallet.exceptions.UserAuthException;
 import com.bankProject.tekanaeWallet.exceptions.UserExistsException;
-import com.bankProject.tekanaeWallet.role.models.RoleModel;
-import com.bankProject.tekanaeWallet.auth.models.UserModel;
-import com.bankProject.tekanaeWallet.role.repositories.RoleRepository;
+import com.bankProject.tekanaeWallet.role.entity.Role;
+import com.bankProject.tekanaeWallet.auth.entity.User;
 import com.bankProject.tekanaeWallet.auth.repositories.UserRepository;
+import com.bankProject.tekanaeWallet.role.repository.RoleRepository;
 import com.bankProject.tekanaeWallet.utils.JwtUserDetailService;
 import com.bankProject.tekanaeWallet.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -43,32 +46,44 @@ public class UserService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     public AuthResponseDto userRegister(RegisterDto registerDto) throws UserExistsException, NotFoundException {
-        UserModel findUser = userRepository.findByEmail(registerDto.getEmail());
-        List<RoleModel> roles = new ArrayList<>();
+        User findUser = userRepository.findByEmail(registerDto.getEmail());
+        List<Role> roles = new ArrayList<>();
         if (findUser != null) {
             throw new UserExistsException("User already exists");
         }
-        RoleModel userRole = roleRepository.findByName("USER");
+        Role userRole = roleRepository.findByName("USER");
         if(userRole == null) {
             throw new NotFoundException("Role not found");
         }
         roles.add(userRole);
 
-        UserModel user = UserModel.builder()
+        // create user account
+        Account accountUser = Account.builder()
+                .account_number(UUID.randomUUID())
+                .balance(0L)
+                .build();
+
+        Account savedAccount = accountRepository.save(accountUser);
+        // create user instance
+        User user = User.builder()
                 .firstName(registerDto.getFirstName())
                 .lastName(registerDto.getLastName())
                 .email(registerDto.getEmail())
                 .password(passwordEncoder.encode(registerDto.getPassword()))
                 .contactNumber(registerDto.getContactNumber())
                 .roles(roles)
+                .account(savedAccount)
                 .build();
-
-        UserModel savedUser = userRepository.save(user);
-        return createJwt("User Registered Successfully", savedUser);
+        // save user
+        userRepository.save(user);
+        return new AuthResponseDto("User Registered Successfully", null);
     }
 
-    public AuthResponseDto createJwt(String message, UserModel user) {
+    public AuthResponseDto createJwt(String message, User user) {
         String userEmail = user.getEmail();
         UserDetails userDetails = jwtUserDetailService.loadUserByUsername(userEmail);
         String token = jwtUtil.generateToken(userDetails);
@@ -78,7 +93,7 @@ public class UserService {
     public AuthResponseDto userLogin(LoginDto loginDto) throws NotFoundException, UserAuthException {
         String userEmail = loginDto.getEmail();
         String password = loginDto.getPassword();
-        UserModel findUser = userRepository.findByEmail(userEmail);
+        User findUser = userRepository.findByEmail(userEmail);
         if(findUser != null) {
             boolean passwordVerification = passwordEncoder.matches(password, findUser.getPassword());
             if(passwordVerification) {
@@ -92,7 +107,7 @@ public class UserService {
         }
     }
 
-    public List<UserModel> getAllUsers() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 }
