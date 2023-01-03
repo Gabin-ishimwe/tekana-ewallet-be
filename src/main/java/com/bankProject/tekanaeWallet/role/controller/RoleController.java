@@ -10,7 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/api/role")
+@RequestMapping(path = "/api/v1/role")
 @Api(tags = "Role")
 public class RoleController {
     private final RoleService roleService;
@@ -24,7 +24,7 @@ public class RoleController {
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(
             value = "User role permission",
-            notes = "Give user role to access different specified resources"
+            notes = "Give user role to access different specified resources (only accessible to admins)"
     )
     public ResponseDto assignRole(@RequestParam("userId") Long userId, @RequestParam("roleId") Long roleId) throws NotFoundException {
         return roleService.addRolePermissions(userId, roleId);
@@ -34,11 +34,9 @@ public class RoleController {
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(
             value = "User role permission",
-            notes = "Remove user role to access different specified resources"
+            notes = "Remove user role to access different specified resources (only accessible to admins)"
     )
     public ResponseDto removeRolePermission(@RequestParam("userId") Long userId, @RequestParam("roleId") Long roleId) throws NotFoundException {
         return roleService.removeRolePermission(userId, roleId);
     }
-
-
 }

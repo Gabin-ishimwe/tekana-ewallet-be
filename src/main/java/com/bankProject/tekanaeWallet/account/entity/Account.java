@@ -1,6 +1,7 @@
 package com.bankProject.tekanaeWallet.account.entity;
 
 import com.bankProject.tekanaeWallet.auth.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

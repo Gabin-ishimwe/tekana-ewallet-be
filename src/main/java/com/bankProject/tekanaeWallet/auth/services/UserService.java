@@ -17,6 +17,7 @@ import com.bankProject.tekanaeWallet.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -97,6 +98,7 @@ public class UserService {
         if(findUser != null) {
             boolean passwordVerification = passwordEncoder.matches(password, findUser.getPassword());
             if(passwordVerification) {
+                System.out.println("password matched-----------");
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userEmail, password));
                 return createJwt("User Logged in Successfully", findUser);
             } else {
@@ -109,5 +111,14 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public User getOneUser() throws NotFoundException {
+        UserDetails authUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User findUser = userRepository.findByEmail(authUser.getUsername());
+        if(findUser == null) {
+            throw new NotFoundException("User not found");
+        }
+        return findUser;
     }
 }

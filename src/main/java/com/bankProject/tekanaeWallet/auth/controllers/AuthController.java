@@ -11,6 +11,7 @@ import com.bankProject.tekanaeWallet.auth.services.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -43,12 +44,22 @@ public class AuthController {
         return userService.userLogin(loginDto);
     }
 
-    @GetMapping
+    @GetMapping(path = "/users")
     @ApiOperation(
             value = "Get all users",
-            notes = "Api to get all application user"
+            notes = "Api to get all application user (only accessible to admins)"
     )
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @GetMapping(path = "/profile")
+    @PreAuthorize("hasRole('USER')")
+    @ApiOperation(
+            value = "Get one users",
+            notes = "Api to get user profile"
+    )
+    public User getOneUser() throws NotFoundException {
+        return userService.getOneUser();
     }
 }

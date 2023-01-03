@@ -2,6 +2,7 @@ package com.bankProject.tekanaeWallet.auth.entity;
 
 import com.bankProject.tekanaeWallet.account.entity.Account;
 import com.bankProject.tekanaeWallet.role.entity.Role;
+import com.bankProject.tekanaeWallet.transaction.entity.Transaction;
 import lombok.*;
 
 import javax.persistence.*;
@@ -63,4 +64,11 @@ public class User {
             referencedColumnName = "account_number"
     )
     private Account account;
+
+    @OneToMany
+    @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "id"
+    )
+    private List<Transaction> transactions;
 }
