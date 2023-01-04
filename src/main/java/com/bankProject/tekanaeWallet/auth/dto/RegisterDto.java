@@ -2,6 +2,7 @@ package com.bankProject.tekanaeWallet.auth.dto;
 
 import com.bankProject.tekanaeWallet.validation.passwordValidation.Password;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class RegisterDto {
     @NotBlank(
             message = "First name is required"

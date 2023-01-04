@@ -26,3 +26,5 @@ app:
   authorities:
     USER: USER
     ADMIN: ADMIN
+
+  baseUrl: "http://localhost"
