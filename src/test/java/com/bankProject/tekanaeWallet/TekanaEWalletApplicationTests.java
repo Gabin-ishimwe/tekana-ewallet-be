@@ -8,6 +8,7 @@ import com.bankProject.tekanaeWallet.auth.dto.LoginDto;
 import com.bankProject.tekanaeWallet.auth.dto.RegisterDto;
 import com.bankProject.tekanaeWallet.auth.entity.User;
 import com.bankProject.tekanaeWallet.auth.repositories.UserRepository;
+import com.bankProject.tekanaeWallet.transaction.dto.TransactionResponseDto;
 import com.bankProject.tekanaeWallet.utils.JwtUtil;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,11 +95,24 @@ class TekanaEWalletApplicationTests extends AbstractTest {
 	@Test
 	@DisplayName("Test API to get all users")
 	void getAllUsers() {
-		// testing on seed users
-		List response = restTemplate.getForObject(baseUrl + "/auth/users", List.class);
+		// authenticate user
+		LoginDto loginDto = LoginDto.builder()
+				.email("angel@gmail.com")
+				.password("#Password567")
+				.build();
 
+		AuthResponseDto response = restTemplate.postForObject(baseUrl + "/auth/login", loginDto, AuthResponseDto.class);
 		assert response != null;
-		assertEquals(response.size(), 4);
+		String token = response.getToken();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", "Bearer " + token);
+		HttpEntity<String> httpEntity = new HttpEntity<>(headers);
+
+		// testing on seed users
+		ResponseEntity<List> responseUsers = restTemplate.exchange(baseUrl + "/auth/users", HttpMethod.GET, httpEntity, List.class);
+
+		assertFalse(Objects.requireNonNull(responseUsers.getBody()).isEmpty());
 	}
 
 	@Test
@@ -119,7 +133,7 @@ class TekanaEWalletApplicationTests extends AbstractTest {
 		HttpEntity<String> httpEntity = new HttpEntity<>(headers);
 
 		ResponseEntity<User> userProfile = restTemplate.exchange(baseUrl + "/auth/profile", HttpMethod.GET, httpEntity, User.class);
-		System.out.println(userProfile);
+
 		assertEquals("john@gmail.com", Objects.requireNonNull(userProfile.getBody()).getEmail());
 	}
 
@@ -236,9 +250,9 @@ class TekanaEWalletApplicationTests extends AbstractTest {
 		User findUser = userRepository.findByEmail(email);
 
 		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
-		ResponseEntity<List> depositResponse = restTemplate.exchange(baseUrl + "/transaction", HttpMethod.GET, httpEntity, List.class);
+		ResponseEntity<TransactionResponseDto> depositResponse = restTemplate.exchange(baseUrl + "/transaction", HttpMethod.GET, httpEntity, TransactionResponseDto.class);
 
-		assertEquals(Objects.requireNonNull(depositResponse.getBody()).size(), 3);
+		assertEquals(Objects.requireNonNull(depositResponse.getBody()).getMessage(), "User's Transactions");
 	}
 
 	@Test
@@ -263,8 +277,8 @@ class TekanaEWalletApplicationTests extends AbstractTest {
 		long accountNum = findUser.getTransactions().get(0).getId();
 
 		HttpEntity<String> httpEntity = new HttpEntity<String>(headers);
-		ResponseEntity<List> depositResponse = restTemplate.exchange(baseUrl + "/transaction/" + accountNum, HttpMethod.GET, httpEntity, List.class);
-		assertFalse(Objects.requireNonNull(depositResponse.getBody()).isEmpty());
+		ResponseEntity<TransactionResponseDto> depositResponse = restTemplate.exchange(baseUrl + "/transaction/" + accountNum, HttpMethod.GET, httpEntity, TransactionResponseDto.class);
+		assertFalse(Objects.requireNonNull(depositResponse.getBody()).getTransactions().isEmpty());
 	}
 
 }

@@ -1,4 +1,4 @@
-
+[![Tekana-eWallet CI/CD pipeline](https://github.com/Gabin-ishimwe/tekana-ewallet-be/actions/workflows/maven.yml/badge.svg)](https://github.com/Gabin-ishimwe/tekana-ewallet-be/actions/workflows/maven.yml)
 # Tekana eWallet Project
 
 This is a backend infrastructure of an eWallet platform that is used by people worlwide to transfer money
