@@ -32,7 +32,7 @@ Attached to this section a link to the desing document
 
 
 ## Database Design
-![Database Design Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Database Design Screenshot](./Database%20Design.png)
 
 ## API endpoints
 
