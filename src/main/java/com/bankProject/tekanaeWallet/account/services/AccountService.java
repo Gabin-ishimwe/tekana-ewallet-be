@@ -139,4 +139,15 @@ public class AccountService {
         userRepository.save(findUser);
         return new AccountResponseDto("Amount Transferred Successfully", transferAccount);
     }
+
+    public AccountResponseDto balanceAccount() throws NotFoundException {
+        UserDetails authUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User findUser = userRepository.findByEmail(authUser.getUsername());
+        if(findUser == null) {
+            throw new NotFoundException("User not found");
+        }
+        Account userAccount = findUser.getAccount();
+
+        return new AccountResponseDto("Account Balance", userAccount);
+    }
 }

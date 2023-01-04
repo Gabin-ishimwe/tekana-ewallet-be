@@ -65,7 +65,7 @@ public class SeedData implements CommandLineRunner {
                 "Jane",
                 "Angel",
                 "angel@gmail.com",
-                "#Password123",
+                "#Password567",
                 "0787383734",
                 List.of(roleUser, roleAdmin),
                 account3

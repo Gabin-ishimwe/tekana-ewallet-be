@@ -1,6 +1,7 @@
 package com.bankProject.tekanaeWallet.transaction.controller;
 
 import com.bankProject.tekanaeWallet.exceptions.NotFoundException;
+import com.bankProject.tekanaeWallet.transaction.dto.TransactionResponseDto;
 import com.bankProject.tekanaeWallet.transaction.entity.Transaction;
 import com.bankProject.tekanaeWallet.transaction.service.TransactionService;
 import io.swagger.annotations.Api;
@@ -27,7 +28,7 @@ public class TransactionController {
             value = "User's transaction",
             notes = "API to get all transactions of user"
     )
-    public List<Transaction> getAllTransactions() throws NotFoundException {
+    public TransactionResponseDto getAllTransactions() throws NotFoundException {
         return transactionService.getAllUserTransaction();
     }
 
@@ -37,7 +38,7 @@ public class TransactionController {
             value = "User's transaction",
             notes = "API to get one transaction by Id of user"
     )
-    public List<Transaction> getOneTransactions(@PathVariable Long transactionId) throws NotFoundException {
+    public TransactionResponseDto getOneTransactions(@PathVariable Long transactionId) throws NotFoundException {
         return transactionService.getOneUserTransaction(transactionId);
     }
 }

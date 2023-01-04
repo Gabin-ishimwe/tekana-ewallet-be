@@ -45,6 +45,7 @@ public class AuthController {
     }
 
     @GetMapping(path = "/users")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(
             value = "Get all users",
             notes = "Api to get all application user (only accessible to admins)"
@@ -56,7 +57,7 @@ public class AuthController {
     @GetMapping(path = "/profile")
     @PreAuthorize("hasRole('USER')")
     @ApiOperation(
-            value = "Get one users",
+            value = "Get one user",
             notes = "Api to get user profile"
     )
     public User getOneUser() throws NotFoundException {
