@@ -27,7 +27,7 @@ Attached to this section a link to the desing document
 
 #### Postman Documentation
 ```bash
-  <HEROKU_LINK> POSTMAN DOCUMENTATION
+  https://documenter.getpostman.com/view/19575892/2s8Z72WCHs
 ```
 
 
@@ -37,19 +37,19 @@ Attached to this section a link to the desing document
 ## API endpoints
 
 | HTTP Method | Endpoint     | Description                |
-| :-------- | :------- | :------------------------- |
-| `POST` | `/api/v1/auth/register` | Endpoint to create new user and account |
-| `POST` | `/api/v1/auth/login` | Endpoint to login user in the application |
-| `GET` | `/api/v1/auth/profile` | Endpoint to get user's detail informations |
-| `GET` | `/api/v1/auth/users` | Endpoint to get all users in the application (only accessible by `ADMIN`) |
-| `POST` | `/api/v1/account/balance` | Endpoint to view balance amount on user's account |
-| `POST` | `/api/v1/account/deposit` | Endpoint to deposit money on user's account |
-| `POST` | `/api/v1/account/withdraw` | Endpoint to withdraw money on user's account |
-| `POST` | `/api/v1/account/transfer` | Endpoint to transfer money from one account to another |
-| `GET` | `/api/v1/transaction` | Endpoint to get all transactions made on user's account like deposit, withdraw and transfer |
-| `GET` | `/api/v1/transaction/{transaction_id}` | Endpoint to get one transaction made on user's account |
-| `POST` | `/api/v1/role?userId={user_id}&roleId={role_id}` | Endpoint to giver a user specific role (only accessible by `ADMIN`) |
-| `PUT` | `/api/v1/role?userId={user_id}&roleId={role_id}` | Endpoint to remove a specific role from user (only accessible by `ADMIN`) |
+|:------------| :------- | :------------------------- |
+| `POST`      | `/api/v1/auth/register` | Endpoint to create new user and account |
+| `POST`      | `/api/v1/auth/login` | Endpoint to login user in the application |
+| `GET`       | `/api/v1/auth/profile` | Endpoint to get user's detail informations |
+| `GET`       | `/api/v1/auth/users` | Endpoint to get all users in the application (only accessible by `ADMIN`) |
+| `GET`       | `/api/v1/account/balance` | Endpoint to view balance amount on user's account |
+| `POST`      | `/api/v1/account/deposit` | Endpoint to deposit money on user's account |
+| `POST`      | `/api/v1/account/withdraw` | Endpoint to withdraw money on user's account |
+| `POST`      | `/api/v1/account/transfer` | Endpoint to transfer money from one account to another |
+| `GET`       | `/api/v1/transaction` | Endpoint to get all transactions made on user's account like deposit, withdraw and transfer |
+| `GET`       | `/api/v1/transaction/{transaction_id}` | Endpoint to get one transaction made on user's account |
+| `POST`      | `/api/v1/role?userId={user_id}&roleId={role_id}` | Endpoint to giver a user specific role (only accessible by `ADMIN`) |
+| `PUT`       | `/api/v1/role?userId={user_id}&roleId={role_id}` | Endpoint to remove a specific role from user (only accessible by `ADMIN`) |
 
 ## Features
 

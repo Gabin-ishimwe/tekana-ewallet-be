@@ -52,14 +52,15 @@ public class RoleService {
         List<Role> roles = user.getRoles();
         for (Role role : roles) {
             if (Objects.equals(role.getName(), findRole.getName())) {
+                System.out.println("removing----");
                 user.getRoles().remove(findRole);
                 userRepository.save(user);
                 return new ResponseDto("User role removed " + findRole.getName(), HttpStatus.OK);
             }
-            return new ResponseDto("User doesn't have role " + findRole.getName(), HttpStatus.OK);
         }
 
-        return null;
+        return new ResponseDto("User doesn't have role " + findRole.getName(), HttpStatus.OK);
+
     }
 
 }
