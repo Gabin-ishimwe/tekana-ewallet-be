@@ -1,0 +1,1 @@
+web: java  -jar ./target/tekana-eWallet-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod --spring.config.location=classpath:/application-prod.yml

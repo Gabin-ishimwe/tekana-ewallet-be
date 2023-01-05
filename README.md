@@ -17,12 +17,12 @@ Attached to this section a link to the desing document
 
 #### Backend API
 ```bash
-  <HEROKU_LINK>
+  https://tekana-ewallet-be.up.railway.app/
 ```
 
 #### API Documentation (Swagger)
 ```bash
-  <HEROKU_LINK> SWAGGER
+  https://tekana-ewallet-be.up.railway.app/swagger-ui/index.html
 ```
 
 #### Postman Documentation
@@ -59,6 +59,8 @@ Attached to this section a link to the desing document
 - Transfer Money on other Account
 - View all Transactions made
 - View one Transaction
+- Add roles
+- remove roles
 
 
 ## Test API
@@ -76,6 +78,8 @@ To test those APIs you can use one of the deployment links provide above. There 
 **Database:** PostgreSQL
 
 **Testing:** JUnit, MockMvc, RestTemplate, Test Containers
+
+**CI/CD:** GitHub Actions
 
 
 ## Authors

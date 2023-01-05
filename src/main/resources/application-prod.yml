@@ -16,13 +16,13 @@ spring:
       matching-strategy: ant_path_matcher
 
   datasource:
-    url: postgresql://postgres:llKWRevfTKm7msV8eggY@containers-us-west-21.railway.app:8073/railway
-    username: postgres
-    password: llKWRevfTKm7msV8eggY
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
 
 app:
   jwt:
-    secret: tekanaeWalletJwtSecretKey
+    secret: ${SECRET_TOKEN}
   authorities:
     USER: USER
     ADMIN: ADMIN
