@@ -37,21 +37,18 @@ public class AccountService {
 
     @Transactional
     public AccountResponseDto depositMoney(AccountRequestDto accountRequestDto) throws NotFoundException {
-        Optional<Account> findAccount = accountRepository.findById(accountRequestDto.getAccountNumber());
+        Account findAccount = accountRepository.findById(accountRequestDto.getAccountNumber()).orElseThrow(() -> new NotFoundException("Account number not found"));
         UserDetails authUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User findUser = userRepository.findByEmail(authUser.getUsername());
-        if(findAccount.isEmpty()) {
-            throw new NotFoundException("Account number not found");
-        }
         if(findUser == null) {
             throw new NotFoundException("User not found");
         }
-        Long newBalance = findAccount.get().getBalance() + accountRequestDto.getMoney();
-        findAccount.get().setBalance(newBalance);
-        Account depositAccount = accountRepository.save(findAccount.get());
+        Long newBalance = findAccount.getBalance() + accountRequestDto.getMoney();
+        findAccount.setBalance(newBalance);
+        Account depositAccount = accountRepository.save(findAccount);
 
         Transaction deposit = new Transaction();
-        deposit.setToAccountNumber(findAccount.get().getAccount_number());
+        deposit.setToAccountNumber(findAccount.getAccount_number());
         deposit.setAmount(accountRequestDto.getMoney());
         deposit.setTypeTransaction(TypeTransaction.DEPOSIT);
 
@@ -67,24 +64,21 @@ public class AccountService {
 
     @Transactional
     public AccountResponseDto withdrawMoney(AccountRequestDto accountRequestDto) throws NotFoundException {
-        Optional<Account> findAccount = accountRepository.findById(accountRequestDto.getAccountNumber());
+        Account findAccount = accountRepository.findById(accountRequestDto.getAccountNumber()).orElseThrow(() -> new NotFoundException("Account number not found"));
         UserDetails authUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User findUser = userRepository.findByEmail(authUser.getUsername());
-        if(findAccount.isEmpty()) {
-            throw new NotFoundException("Account number not found");
-        }
         if(findUser == null) {
             throw new NotFoundException("User not found");
         }
-        long remainingBalance = findAccount.get().getBalance() - accountRequestDto.getMoney();
+        long remainingBalance = findAccount.getBalance() - accountRequestDto.getMoney();
         if(remainingBalance < 0) {
             throw new IllegalArgumentException("You don't have enough sufficient funds");
         }
-        findAccount.get().setBalance(remainingBalance);
-        Account withrawAccount = accountRepository.save(findAccount.get());
+        findAccount.setBalance(remainingBalance);
+        Account withrawAccount = accountRepository.save(findAccount);
 
         Transaction withdraw = new Transaction();
-        withdraw.setFromAccountNumber(findAccount.get().getAccount_number());
+        withdraw.setFromAccountNumber(findAccount.getAccount_number());
         withdraw.setAmount(accountRequestDto.getMoney());
         withdraw.setTypeTransaction(TypeTransaction.WITHDRAW);
 
@@ -100,39 +94,33 @@ public class AccountService {
 
     @Transactional
     public AccountResponseDto transferMoney(TransferRequestDto transferRequestDto) throws NotFoundException {
-        Optional<Account> senderAccount = accountRepository.findById(transferRequestDto.getSenderAccount());
-        Optional<Account> receiveAccount = accountRepository.findById(transferRequestDto.getReceiverAccount());
+        Account senderAccount = accountRepository.findById(transferRequestDto.getSenderAccount()).orElseThrow(()-> new NotFoundException("Sender account not found"));
+        Account receiveAccount = accountRepository.findById(transferRequestDto.getReceiverAccount()).orElseThrow(() -> new NotFoundException("Receiver account not found"));
         UserDetails authUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User findUser = userRepository.findByEmail(authUser.getUsername());
         if(findUser == null) {
             throw new NotFoundException("User not found");
         }
-        if(senderAccount.isEmpty()) {
-            throw new NotFoundException("Sender account not found");
-        }
-        if(receiveAccount.isEmpty()) {
-            throw new NotFoundException("Receiver account not found");
-        }
         // sender's account
         // removing the amount
-        long newBalance = senderAccount.get().getBalance() - transferRequestDto.getAmount();
+        long newBalance = senderAccount.getBalance() - transferRequestDto.getAmount();
         if(newBalance < 0) {
             throw new IllegalArgumentException("You don't have enough sufficient funds");
         }
-        senderAccount.get().setBalance(newBalance);
-        Account transferAccount = accountRepository.save(senderAccount.get());
+        senderAccount.setBalance(newBalance);
+        Account transferAccount = accountRepository.save(senderAccount);
 
         // receiver's account
         // adding the amount
-        receiveAccount.get().setBalance(receiveAccount.get().getBalance() + transferRequestDto.getAmount());
-        accountRepository.save(receiveAccount.get());
+        receiveAccount.setBalance(receiveAccount.getBalance() + transferRequestDto.getAmount());
+        accountRepository.save(receiveAccount);
 
         // registering transaction
         Transaction transfer = new Transaction();
         transfer.setTypeTransaction(TypeTransaction.TRANSFER);
         transfer.setAmount(transferRequestDto.getAmount());
-        transfer.setFromAccountNumber(senderAccount.get().getAccount_number());
-        transfer.setToAccountNumber(receiveAccount.get().getAccount_number());
+        transfer.setFromAccountNumber(senderAccount.getAccount_number());
+        transfer.setToAccountNumber(receiveAccount.getAccount_number());
 
         Transaction transferTransaction = transactionRepository.save(transfer);
         findUser.getTransactions().add(transferTransaction);

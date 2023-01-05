@@ -1,6 +1,7 @@
 package com.bankProject.tekanaeWallet.account.entity;
 
 import com.bankProject.tekanaeWallet.auth.entity.User;
+import com.bankProject.tekanaeWallet.transaction.entity.Transaction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -27,5 +29,4 @@ public class Account {
     private UUID account_number;
 
     private Long balance;
-
 }

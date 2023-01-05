@@ -1,6 +1,7 @@
 package com.bankProject.tekanaeWallet.auth.dto;
 
 import com.bankProject.tekanaeWallet.validation.passwordValidation.Password;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 @Builder
 public class LoginDto {
 
+    @ApiModelProperty(notes = "Email", example = "bernard@gmail.com", required = true)
     @NotBlank(
             message = "Email is required"
     )
@@ -23,6 +25,7 @@ public class LoginDto {
     )
     private String email;
 
+    @ApiModelProperty(notes = "Password", example = "#Password123", required = true)
     @NotBlank(
             message = "PasswordAnnotation is required"
     )

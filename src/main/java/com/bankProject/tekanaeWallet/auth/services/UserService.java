@@ -21,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,7 @@ public class UserService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Transactional
     public AuthResponseDto userRegister(RegisterDto registerDto) throws UserExistsException, NotFoundException {
         User findUser = userRepository.findByEmail(registerDto.getEmail());
         List<Role> roles = new ArrayList<>();
@@ -79,6 +81,7 @@ public class UserService {
                 .roles(roles)
                 .account(savedAccount)
                 .build();
+
         // save user
         userRepository.save(user);
         return new AuthResponseDto("User Registered Successfully", null);
@@ -98,7 +101,6 @@ public class UserService {
         if(findUser != null) {
             boolean passwordVerification = passwordEncoder.matches(password, findUser.getPassword());
             if(passwordVerification) {
-                System.out.println("password matched-----------");
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userEmail, password));
                 return createJwt("User Logged in Successfully", findUser);
             } else {

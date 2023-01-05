@@ -16,9 +16,9 @@ spring:
       matching-strategy: ant_path_matcher
 
   datasource:
-    url: postgresql://postgres:llKWRevfTKm7msV8eggY@containers-us-west-21.railway.app:8073/railway
+    url: jdbc:postgresql://localhost:5432/ewallet
     username: postgres
-    password: llKWRevfTKm7msV8eggY
+    password: andela
 
 app:
   jwt:
