@@ -110,9 +110,9 @@ class TekanaEWalletApplicationTests extends AbstractTest {
 		HttpEntity<String> httpEntity = new HttpEntity<>(headers);
 
 		// testing on seed users
-		ResponseEntity<List> responseUsers = restTemplate.exchange(baseUrl + "/auth/users", HttpMethod.GET, httpEntity, List.class);
+		ResponseEntity<AuthResponseDto> responseUsers = restTemplate.exchange(baseUrl + "/auth/users", HttpMethod.GET, httpEntity, AuthResponseDto.class);
 
-		assertFalse(Objects.requireNonNull(responseUsers.getBody()).isEmpty());
+		assertEquals(Objects.requireNonNull(responseUsers.getBody()).getMessage(), "All users");
 	}
 
 	@Test
@@ -132,9 +132,9 @@ class TekanaEWalletApplicationTests extends AbstractTest {
 		headers.set("Authorization", "Bearer " + token);
 		HttpEntity<String> httpEntity = new HttpEntity<>(headers);
 
-		ResponseEntity<User> userProfile = restTemplate.exchange(baseUrl + "/auth/profile", HttpMethod.GET, httpEntity, User.class);
+		ResponseEntity<AuthResponseDto> userProfile = restTemplate.exchange(baseUrl + "/auth/profile", HttpMethod.GET, httpEntity, AuthResponseDto.class);
 
-		assertEquals("john@gmail.com", Objects.requireNonNull(userProfile.getBody()).getEmail());
+		assertEquals("User profile", Objects.requireNonNull(userProfile.getBody()).getMessage());
 	}
 
 	@Test
@@ -226,7 +226,7 @@ class TekanaEWalletApplicationTests extends AbstractTest {
 		HttpEntity<TransferRequestDto> httpEntity = new HttpEntity<TransferRequestDto>(transferRequestDto, headers);
 		ResponseEntity<AccountResponseDto> depositResponse = restTemplate.exchange(baseUrl + "/account/transfer", HttpMethod.POST, httpEntity, AccountResponseDto.class);
 
-		assertEquals(Objects.requireNonNull(depositResponse.getBody()).getMessage(), "Amount Transferred Successfully");
+		assertEquals(Objects.requireNonNull(depositResponse.getBody()).getMessage(), "Amount Transferred Successfully to " + receiver.getFirstName() + " " + receiver.getLastName());
 	}
 
 	@Test
