@@ -84,14 +84,20 @@ public class UserService {
 
         // save user
         userRepository.save(user);
-        return new AuthResponseDto("User Registered Successfully", null);
+        return AuthResponseDto
+                .builder()
+                .message("User Registered Successfully")
+                .build();
     }
 
     public AuthResponseDto createJwt(String message, User user) {
         String userEmail = user.getEmail();
         UserDetails userDetails = jwtUserDetailService.loadUserByUsername(userEmail);
         String token = jwtUtil.generateToken(userDetails);
-        return new AuthResponseDto(message, token);
+        return AuthResponseDto.builder()
+                .message(message)
+                .token(token)
+                .build();
 
     }
     public AuthResponseDto userLogin(LoginDto loginDto) throws NotFoundException, UserAuthException {
@@ -111,16 +117,23 @@ public class UserService {
         }
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public AuthResponseDto getAllUsers() {
+        List<User> allUsers = userRepository.findAll();
+        return AuthResponseDto.builder()
+                .message("All users")
+                .users(allUsers)
+                .build();
     }
 
-    public User getOneUser() throws NotFoundException {
+    public AuthResponseDto getOneUser() throws NotFoundException {
         UserDetails authUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User findUser = userRepository.findByEmail(authUser.getUsername());
         if(findUser == null) {
             throw new NotFoundException("User not found");
         }
-        return findUser;
+        return AuthResponseDto.builder()
+                .message("User profile")
+                .user(findUser)
+                .build();
     }
 }

@@ -50,7 +50,7 @@ public class AuthController {
             value = "Get all users",
             notes = "Api to get all application user (only accessible to admins)"
     )
-    public List<User> getAllUsers() {
+    public AuthResponseDto getAllUsers() {
         return userService.getAllUsers();
     }
 
@@ -60,7 +60,7 @@ public class AuthController {
             value = "Get one user",
             notes = "Api to get user profile"
     )
-    public User getOneUser() throws NotFoundException {
+    public AuthResponseDto getOneUser() throws NotFoundException {
         return userService.getOneUser();
     }
 }

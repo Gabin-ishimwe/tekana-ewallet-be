@@ -36,7 +36,7 @@ public class RoleService {
         }
         for (Role role : roles) {
             if (Objects.equals(role.getName(), findRole.getName())) {
-                return new ResponseDto("User arleady have role " + role.getName(), HttpStatus.OK);
+                return new ResponseDto("User already have role '" + role.getName() + "'", HttpStatus.OK);
             }
         }
         List<Role> addingRole = new ArrayList<>(roles);
@@ -55,11 +55,11 @@ public class RoleService {
                 System.out.println("removing----");
                 user.getRoles().remove(findRole);
                 userRepository.save(user);
-                return new ResponseDto("User role removed " + findRole.getName(), HttpStatus.OK);
+                return new ResponseDto("User role removed '" + findRole.getName() + "'", HttpStatus.OK);
             }
         }
 
-        return new ResponseDto("User doesn't have role " + findRole.getName(), HttpStatus.OK);
+        return new ResponseDto("User doesn't have role '" + findRole.getName() + "'", HttpStatus.OK);
 
     }
 

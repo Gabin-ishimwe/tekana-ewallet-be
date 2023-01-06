@@ -29,4 +29,8 @@ public class Account {
     private UUID account_number;
 
     private Long balance;
+
+    @OneToOne(mappedBy = "account")
+    @JsonIgnore
+    private User user;
 }
