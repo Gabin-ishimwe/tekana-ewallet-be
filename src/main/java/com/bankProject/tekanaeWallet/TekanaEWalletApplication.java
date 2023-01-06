@@ -8,13 +8,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@RestController
 public class TekanaEWalletApplication {
-
-	@GetMapping("/")
-	public String welcomeApi() {
-		return "Welcome to Tekana eWallet API, To access the API documentation navigate to /swagger-ui/index.html";
-	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(TekanaEWalletApplication.class, args);

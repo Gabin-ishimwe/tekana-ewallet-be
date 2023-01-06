@@ -17,12 +17,12 @@ Attached to this section a link to the desing document
 
 #### Backend API
 ```bash
-  https://tekana-ewallet-be.up.railway.app/
+  https://tekanaewallet.herokuapp.com/api/v1
 ```
 
 #### API Documentation (Swagger)
 ```bash
-  https://tekana-ewallet-be.up.railway.app/swagger-ui/index.html
+ https://tekanaewallet.herokuapp.com/swagger-ui/index.html
 ```
 
 #### Postman Documentation
@@ -61,6 +61,7 @@ Attached to this section a link to the desing document
 - View one Transaction
 - Add roles
 - remove roles
+- validations
 
 
 ## Test API
