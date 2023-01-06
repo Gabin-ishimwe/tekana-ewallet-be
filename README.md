@@ -27,7 +27,7 @@ Attached to this section a link to the desing document
 
 #### Postman Documentation
 ```bash
-  https://documenter.getpostman.com/view/19575892/2s8Z72WCHs
+  https://documenter.getpostman.com/view/19575892/2s8Z73yWP3
 ```
 
 
