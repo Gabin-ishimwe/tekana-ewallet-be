@@ -125,7 +125,7 @@ public class AccountService {
         Transaction transferTransaction = transactionRepository.save(transfer);
         findUser.getTransactions().add(transferTransaction);
         userRepository.save(findUser);
-        return new AccountResponseDto("Amount Transferred Successfully", transferAccount);
+        return new AccountResponseDto("Amount Transferred Successfully to " + receiveAccount.getUser().getFirstName() + " " + receiveAccount.getUser().getLastName(), transferAccount);
     }
 
     public AccountResponseDto balanceAccount() throws NotFoundException {

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 @Api(tags = "Home")
 public class HomeController {
-    @GetMapping("/home")
+    @GetMapping("/")
     @ApiOperation(
             value = "Home route",
             notes = "Entry point of the application"
