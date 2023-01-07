@@ -65,12 +65,18 @@ Attached to this section a link to the desing document
 
 
 ## Test API
+### Seed Data
+
 To test those APIs you can use one of the deployment links provide above. There are some seed data provided to make this easy, you can use them to login and use their credentials to test out all the application features.
 
 | Entity | Data     | Description                |
 | :-------- | :------- | :------------------------- |
 | `User Entity` | `{email: john@gmail.com, password: #Password123}` | This user has role `USER`, you can use them to test our almost all features|
 | `User Entity` | `{email: angel@gmail.com, password: #Password567}` | This user has role `ADMIN`, you can use them to test out admin credential feature|
+
+### Swagger Authentication
+Testing Authenticated routes in Swagger you need to add the token in the header. You need to first proceed it with `Bearer <token>`, this is very important because you won't be authenticated without following that pattern.
+![Swagger Auth](./Swagger%20Auth.png)
 
 ## Tech Stack
 
